@@ -6,105 +6,173 @@
   <title>國中段考練習總目錄</title>
   <style>
     :root {
-      --bg: #f2f6f7;
-      --surface: #ffffff;
-      --ink: #18313c;
-      --muted: #526875;
-      --line: #dae5e8;
-      --accent: #087e7e;
-      --accent-hover: #066464;
-      --shadow: 0 10px 30px rgba(21, 50, 62, 0.08);
+      --bg: #f3f6f7;
+      --card-bg: #ffffff;
+      --primary: #087e7e;
+      --primary-hover: #066464;
+      --header-bg: #133e46;
+      --text-main: #133e46;
+      --text-muted: #6b7280;
+      --border: #e1e8eb;
+      --disabled-bg: #d0dcde;
+      --disabled-text: #788e91;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
-      line-height: 1.6;
-      padding: 36px 16px 60px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
     }
-    .container { max-width: 960px; margin: 0 auto; }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
     .header {
-      background: #173f4a;
-      color: #fff;
+      background-color: var(--header-bg);
+      color: #ffffff;
+      padding: 36px 40px;
+      border-radius: 16px;
+      margin-bottom: 36px;
+      box-shadow: 0 4px 16px rgba(19, 62, 70, 0.08);
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      color: #e0f2f1;
+      font-size: 13px;
+      padding: 4px 14px;
       border-radius: 20px;
-      padding: 32px 28px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
     }
-    .header .tag {
-      font-size: 0.85rem;
+
+    .header h1 {
+      font-size: 26px;
       font-weight: 700;
-      color: #9fe2df;
-      letter-spacing: 0.08em;
+      margin-bottom: 8px;
     }
-    .header h1 { font-size: 1.85rem; margin: 8px 0 10px; }
-    .header p { color: #d1e2e7; font-size: 0.95rem; }
+
+    .header p {
+      font-size: 14px;
+      color: #d1e3e5;
+    }
+
     .grade-title {
-      font-size: 1.45rem;
-      font-weight: 900;
-      color: #173f4a;
-      margin: 40px 0 16px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 36px;
+      margin-bottom: 16px;
       padding-bottom: 8px;
-      border-bottom: 2px solid #dae5e8;
+      border-bottom: 1.5px solid var(--border);
     }
+
     .section-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin: 20px 0 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 20px 0 14px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .section-title::before {
       content: "";
+      display: inline-block;
       width: 4px;
       height: 16px;
-      background: var(--accent);
+      background-color: var(--primary);
       border-radius: 2px;
     }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      min-height: 140px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
-    .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
-    .card-desc { font-size: 0.86rem; color: var(--muted); margin-bottom: 16px; }
-    .btn {
-      display: inline-block;
-      text-align: center;
-      background: var(--accent);
-      color: #fff;
+
+    .card-title {
+      font-size: 16px;
       font-weight: 700;
-      font-size: 0.92rem;
-      text-decoration: none;
-      padding: 9px 14px;
-      border-radius: 10px;
-      transition: background 0.15s ease;
+      color: var(--text-main);
+      margin-bottom: 6px;
     }
-    .btn:hover { background: var(--accent-hover); }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px 0;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      background-color: var(--primary);
+      color: #ffffff;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
     .btn.disabled {
-      background: #cfdbde;
-      color: #6d868e;
+      background-color: var(--disabled-bg);
+      color: var(--disabled-text);
+      pointer-events: none;
       cursor: not-allowed;
+    }
+
+    .btn-light-outline {
+      background-color: #eef8f6;
+      color: #2d6a61;
+      border: 1.5px solid #b5ded8;
+      cursor: default;
       pointer-events: none;
     }
+
     .footer {
       text-align: center;
-      font-size: 0.82rem;
-      color: var(--muted);
+      color: var(--text-muted);
       margin-top: 50px;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -116,37 +184,39 @@
       <p>請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。</p>
     </header>
 
- <!-- 國一（七年級） -->
-<h2 class="grade-title">國一（七年級）</h2>
-<div class="section-title">上學期</div>
-<div class="grid">
-  <div class="card">
-    <div>
-      <h3 class="card-title">第一次段考</h3>
-      <p class="card-desc">因為阿內阿沒有認真準備</p>
+    <!-- 國一（七年級） -->
+    <h2 class="grade-title">國一（七年級）</h2>
+    
+    <div class="section-title">上學期</div>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3 class="card-title">第一次段考</h3>
+          <p class="card-desc">因為阿內阿沒有認真準備</p>
+        </div>
+        <a href="javascript:void(0)" class="btn btn-light-outline">所以沒有題庫</a>
+      </div>
+      <div class="card">
+        <div>
+          <h3 class="card-title">第二次段考</h3>
+          <p class="card-desc">國文、英文、社會、自然 405 題考古練習。</p>
+        </div>
+        <a href="./exam2/" class="btn">進入練習系統 →</a>
+      </div>
+      <div class="card">
+        <div>
+          <h3 class="card-title">第三次段考</h3>
+          <p class="card-desc">待題庫整理匯入後開放。</p>
+        </div>
+        <a href="#" class="btn disabled">建置中</a>
+      </div>
     </div>
-   <a href="javascript:void(0)" class="btn" style="background: #eef8f6; color: #2d6a61; border: 1.5px solid #b5ded8; cursor: default; pointer-events: none;">所以沒有題庫</a>
-  <div class="card">
-    <div>
-      <h3 class="card-title">第二次段考</h3>
-      <p class="card-desc">國文、英文、社會、自然 405 題考古練習。</p>
-    </div>
-    <a href="./exam2/" class="btn">進入練習系統 →</a>
-  </div>
-  <div class="card">
-    <div>
-      <h3 class="card-title">第三次段考</h3>
-      <p class="card-desc">待題庫整理匯入後開放。</p>
-    </div>
-    <a href="#" class="btn disabled">建置中</a>
-  </div>
-</div>
 
-<div class="section-title">下學期</div>
-<div class="grid">
-  <div class="card">
-    <div>
-      <h3 class="card-title">第一次段考</h3>
+    <div class="section-title">下學期</div>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3 class="card-title">第一次段考</h3>
           <p class="card-desc">七下範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled">尚未開放</a>
@@ -169,6 +239,7 @@
 
     <!-- 國二（八年級） -->
     <h2 class="grade-title">國二（八年級）</h2>
+
     <div class="section-title">上學期</div>
     <div class="grid">
       <div class="card">
@@ -221,12 +292,13 @@
 
     <!-- 國三（九年級） -->
     <h2 class="grade-title">國三（九年級）</h2>
+
     <div class="section-title">上學期</div>
     <div class="grid">
       <div class="card">
         <div>
           <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">九上範圍考古題（含地科）。</p>
+          <p class="card-desc">九上範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled">尚未開放</a>
       </div>
@@ -246,34 +318,34 @@
       </div>
     </div>
 
-    <div class="section-title">下學期（會考衝刺）</div>
+    <div class="section-title">下學期</div>
     <div class="grid">
       <div class="card">
         <div>
           <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">九下進度考古題。</p>
+          <p class="card-desc">九下範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考（期末考）</h3>
-          <p class="card-desc">九下畢業考考古題。</p>
+          <h3 class="card-title">第二次段考</h3>
+          <p class="card-desc">九下範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">會考總複習模擬</h3>
-          <p class="card-desc">1~6 冊全範圍模擬題庫。</p>
+          <h3 class="card-title">國中教育會考</h3>
+          <p class="card-desc">會考全科歷屆試題與模考題。</p>
         </div>
         <a href="#" class="btn disabled">尚未開放</a>
       </div>
     </div>
 
-    <footer class="footer">
-      單頁系統使用純本地端 LocalStorage 保存學習進度，更換電腦或清理瀏覽器前請記得備份紀錄。
-    </footer>
+    <div class="footer">
+      國中全科離線測驗練習系統 · 自主複習專用
+    </div>
   </div>
 </body>
 </html>
