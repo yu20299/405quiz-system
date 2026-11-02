@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>國中段考練習總目錄</title>
+  <title>國中段考練習總目錄 | Junior High Exam Practice</title>
   <style>
     :root {
       --bg: #f3f6f7;
@@ -34,7 +34,35 @@
     .container {
       max-width: 1040px;
       margin: 0 auto;
-      padding: 40px 20px 80px;
+      padding: 24px 20px 80px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .lang-toggle {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+
+    .lang-toggle:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eef8f6;
     }
 
     .header {
@@ -178,174 +206,201 @@
 </head>
 <body>
   <div class="container">
+    <div class="top-bar">
+      <button class="lang-toggle" onclick="toggleLanguage()">
+        🌐 <span id="langBtnText">English</span>
+      </button>
+    </div>
+
     <header class="header">
-      <div class="tag">六科考古題 · 離線自主複習</div>
-      <h1>國中段考練習總目錄</h1>
-      <p>請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。</p>
+      <div class="tag" data-zh="六科考古題 · 離線自主複習" data-en="6 Subjects · Offline Practice">六科考古題 · 離線自主複習</div>
+      <h1 data-zh="國中段考練習總目錄" data-en="Junior High Exam Practice Directory">國中段考練習總目錄</h1>
+      <p data-zh="請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。" data-en="Select a grade and exam scope to begin. All records are saved locally.">請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。</p>
     </header>
 
     <!-- 國一（七年級） -->
-    <h2 class="grade-title">國一（七年級）</h2>
+    <h2 class="grade-title" data-zh="國一（七年級）" data-en="Grade 7">國一（七年級）</h2>
     
-    <div class="section-title">上學期</div>
+    <div class="section-title" data-zh="上學期" data-en="Semester 1 (Fall)">上學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">因為阿內阿沒有認真準備</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="因為阿內阿沒有認真準備" data-en="Because Aneia didn't prepare seriously">因為阿內阿沒有認真準備</p>
         </div>
-        <a href="javascript:void(0)" class="btn btn-light-outline">所以沒有題庫</a>
+        <a href="javascript:void(0)" class="btn btn-light-outline" data-zh="所以沒有題庫" data-en="No Question Bank">所以沒有題庫</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">國文、英文、社會、自然 405 題考古練習。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="國文、英文、社會、自然 405 題考古練習。" data-en="405 practice questions (Chinese, English, Social Studies, Science).">國文、英文、社會、自然 405 題考古練習。</p>
         </div>
-        <a href="./exam2/" class="btn">進入練習系統 →</a>
+        <a href="./exam2/" class="btn" data-zh="進入練習系統 →" data-en="Start Practice →">進入練習系統 →</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第三次段考</h3>
-          <p class="card-desc">待題庫整理匯入後開放。</p>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam">第三次段考</h3>
+          <p class="card-desc" data-zh="待題庫整理匯入後開放。" data-en="Available after question bank import.">待題庫整理匯入後開放。</p>
         </div>
-        <a href="#" class="btn disabled">建置中</a>
+        <a href="#" class="btn disabled" data-zh="建置中" data-en="In Progress">建置中</a>
       </div>
     </div>
 
-    <div class="section-title">下學期</div>
+    <div class="section-title" data-zh="下學期" data-en="Semester 2 (Spring)">下學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">七下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="七下範圍考古題。" data-en="Grade 7 Spring past exam questions.">七下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">七下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="七下範圍考古題。" data-en="Grade 7 Spring past exam questions.">七下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第三次段考</h3>
-          <p class="card-desc">七下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam">第三次段考</h3>
+          <p class="card-desc" data-zh="七下範圍考古題。" data-en="Grade 7 Spring past exam questions.">七下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
     </div>
 
     <!-- 國二（八年級） -->
-    <h2 class="grade-title">國二（八年級）</h2>
+    <h2 class="grade-title" data-zh="國二（八年級）" data-en="Grade 8">國二（八年級）</h2>
 
-    <div class="section-title">上學期</div>
+    <div class="section-title" data-zh="上學期" data-en="Semester 1 (Fall)">上學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">八上範圍考古題（含理化）。</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="八上範圍考古題（含理化）。" data-en="Grade 8 Fall past exams (incl. Science).">八上範圍考古題（含理化）。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">八上範圍考古題。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="八上範圍考古題。" data-en="Grade 8 Fall past exam questions.">八上範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第三次段考</h3>
-          <p class="card-desc">八上範圍考古題。</p>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam">第三次段考</h3>
+          <p class="card-desc" data-zh="八上範圍考古題。" data-en="Grade 8 Fall past exam questions.">八上範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
     </div>
 
-    <div class="section-title">下學期</div>
+    <div class="section-title" data-zh="下學期" data-en="Semester 2 (Spring)">下學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">八下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="八下範圍考古題。" data-en="Grade 8 Spring past exam questions.">八下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">八下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="八下範圍考古題。" data-en="Grade 8 Spring past exam questions.">八下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第三次段考</h3>
-          <p class="card-desc">八下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam">第三次段考</h3>
+          <p class="card-desc" data-zh="八下範圍考古題。" data-en="Grade 8 Spring past exam questions.">八下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
     </div>
 
     <!-- 國三（九年級） -->
-    <h2 class="grade-title">國三（九年級）</h2>
+    <h2 class="grade-title" data-zh="國三（九年級）" data-en="Grade 9">國三（九年級）</h2>
 
-    <div class="section-title">上學期</div>
+    <div class="section-title" data-zh="上學期" data-en="Semester 1 (Fall)">上學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">九上範圍考古題。</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="九上範圍考古題。" data-en="Grade 9 Fall past exam questions.">九上範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">九上範圍考古題。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="九上範圍考古題。" data-en="Grade 9 Fall past exam questions.">九上範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第三次段考</h3>
-          <p class="card-desc">九上範圍考古題。</p>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam">第三次段考</h3>
+          <p class="card-desc" data-zh="九上範圍考古題。" data-en="Grade 9 Fall past exam questions.">九上範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
     </div>
 
-    <div class="section-title">下學期</div>
+    <div class="section-title" data-zh="下學期" data-en="Semester 2 (Spring)">下學期</div>
     <div class="grid">
       <div class="card">
         <div>
-          <h3 class="card-title">第一次段考</h3>
-          <p class="card-desc">九下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第一次段考" data-en="1st Exam">第一次段考</h3>
+          <p class="card-desc" data-zh="九下範圍考古題。" data-en="Grade 9 Spring past exam questions.">九下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">第二次段考</h3>
-          <p class="card-desc">九下範圍考古題。</p>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam">第二次段考</h3>
+          <p class="card-desc" data-zh="九下範圍考古題。" data-en="Grade 9 Spring past exam questions.">九下範圍考古題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title">國中教育會考</h3>
-          <p class="card-desc">會考全科歷屆試題與模考題。</p>
+          <h3 class="card-title" data-zh="國中教育會考" data-en="CAP Examination">國中教育會考</h3>
+          <p class="card-desc" data-zh="會考全科歷屆試題與模考題。" data-en="Past CAP and mock exam questions.">會考全科歷屆試題與模考題。</p>
         </div>
-        <a href="#" class="btn disabled">尚未開放</a>
+        <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available">尚未開放</a>
       </div>
     </div>
 
-    <div class="footer">
+    <div class="footer" data-zh="國中全科離線測驗練習系統 · 自主複習專用" data-en="Junior High Offline Quiz System · Self-Study Only">
       國中全科離線測驗練習系統 · 自主複習專用
     </div>
   </div>
+
+  <script>
+    let currentLang = localStorage.getItem('quiz_site_lang') || 'zh';
+
+    function applyLanguage(lang) {
+      document.querySelectorAll('[data-zh]').forEach(el => {
+        el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-zh');
+      });
+      document.getElementById('langBtnText').textContent = lang === 'en' ? '中文' : 'English';
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-Hant';
+      localStorage.setItem('quiz_site_lang', lang);
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      applyLanguage(currentLang);
+    }
+
+    // 初始化語言
+    applyLanguage(currentLang);
+  </script>
 </body>
 </html>
