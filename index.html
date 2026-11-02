@@ -25,8 +25,8 @@
       --border: #e1e8eb;
       --disabled-bg: #d0dcde;
       --disabled-text: #788e91;
-      --badge-bg: #e6f4f2;
-      --badge-text: #087e7e;
+      --cal-range-bg: #e0f2f1;
+      --cal-selected-bg: #087e7e;
     }
 
     /* 深色模式 */
@@ -42,8 +42,8 @@
       --border: #2c343d;
       --disabled-bg: #272f38;
       --disabled-text: #576574;
-      --badge-bg: #133e46;
-      --badge-text: #6ee7b7;
+      --cal-range-bg: #1b3d42;
+      --cal-selected-bg: #17a2a2;
     }
 
     /* 護眼暖色模式 */
@@ -59,8 +59,8 @@
       --border: #e6dac6;
       --disabled-bg: #dfd4c0;
       --disabled-text: #8c7e6c;
-      --badge-bg: #ede0cb;
-      --badge-text: #5a3d28;
+      --cal-range-bg: #ebdcc3;
+      --cal-selected-bg: #7a5c3e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -147,19 +147,25 @@
       padding: 4px 12px;
       border-radius: 8px;
       letter-spacing: 0.5px;
+      display: inline-block;
+      margin-left: 6px;
     }
 
     .countdown-btn {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.4);
       color: var(--header-text);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.2s;
     }
-    .countdown-btn:hover { background: rgba(255, 255, 255, 0.15); }
+    .countdown-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
     .grade-title {
       font-size: 20px;
@@ -205,9 +211,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 155px;
+      min-height: 140px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-      position: relative;
     }
 
     .card-title {
@@ -220,21 +225,7 @@
     .card-desc {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    /* 答題進度小徽章 */
-    .progress-badge {
-      display: inline-flex;
-      align-items: center;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 12px;
-      background-color: var(--badge-bg);
-      color: var(--badge-text);
-      margin-bottom: 14px;
-      width: fit-content;
+      margin-bottom: 16px;
     }
 
     .btn {
@@ -283,6 +274,158 @@
       margin-top: 50px;
       font-size: 13px;
     }
+
+    /* 仿 Booking 日曆 Modal 彈窗樣式 */
+    .cal-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+      backdrop-filter: blur(2px);
+    }
+    .cal-modal-overlay.active { display: flex; }
+
+    .cal-modal-box {
+      background: var(--card-bg);
+      color: var(--text-main);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .cal-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cal-modal-header h3 { font-size: 17px; font-weight: 700; }
+    .cal-close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px;
+    }
+
+    .cal-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .cal-nav button {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .cal-nav button:hover { border-color: var(--primary); background: var(--bg); }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day-cell {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.15s;
+      position: relative;
+    }
+    .cal-day-cell:hover:not(.empty) {
+      background: var(--cal-range-bg);
+    }
+    .cal-day-cell.empty { cursor: default; }
+
+    /* Booking 選取狀態：首日、次日與中間跨度 */
+    .cal-day-cell.selected-day1 {
+      background-color: var(--cal-selected-bg) !important;
+      color: #ffffff !important;
+      font-weight: bold;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .cal-day-cell.selected-day2 {
+      background-color: var(--cal-selected-bg) !important;
+      color: #ffffff !important;
+      font-weight: bold;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .cal-day-cell.in-range {
+      background-color: var(--cal-range-bg) !important;
+      border-radius: 0;
+    }
+
+    .cal-modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .cal-selected-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .cal-confirm-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cal-confirm-btn:hover { background: var(--primary-hover); }
   </style>
 </head>
 <body>
@@ -329,8 +472,9 @@
           ⏳ <span id="countdownLabel" data-zh="距離目標段考：" data-en="Exam Countdown:" data-ja="テストまであと：" data-ko="시험까지 남은 시간:" data-es="Cuenta regresiva:">距離目標段考：</span>
           <span id="countdownTimer" class="countdown-timer">計算中...</span>
         </div>
-        <button class="countdown-btn" onclick="setCountdownDate()" 
-                data-zh="設定考期" data-en="Set Date" data-ja="日程設定" data-ko="날짜 설정" data-es="Configurar">設定考期</button>
+        <button class="countdown-btn" onclick="openCalendarModal()">
+          📅 <span id="dateRangeText">2026/11/26 ~ 11/27</span>
+        </button>
       </div>
     </header>
 
@@ -350,7 +494,6 @@
         <div>
           <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평가" data-es="2.º Examen Parcial">第二次段考</h3>
           <p class="card-desc" data-zh="國文、英文、社會、自然 405 題考古練習。" data-en="405 practice questions (Chinese, English, Social Studies, Science)." data-ja="国語・英語・社会・理科 405問の過去問演習。" data-ko="국어·영어·사회·과학 405문제 기출 연습." data-es="405 preguntas de práctica (Chino, Inglés, Ciencias Sociales, Ciencias).">國文、英文、社會、自然 405 題考古練習。</p>
-          <div id="exam2ProgressBadge" class="progress-badge">📊 讀取中...</div>
         </div>
         <a href="./exam2/" class="btn" data-zh="進入練習系統 →" data-en="Start Practice →" data-ja="練習システムへ →" data-ko="연습 시스템 시작 →" data-es="Entrar a la práctica →">進入練習系統 →</a>
       </div>
@@ -409,7 +552,7 @@
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam" data-ja="第3回定期テスト" data-ko="3차 지필평가" data-es="3.er Examen Parcial">第三次段考</h3>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam" data-ja="第3回定期テスト" data-ko="3차 지필평家" data-es="3.er Examen Parcial">第三次段考</h3>
           <p class="card-desc" data-zh="八上範圍考古題。" data-en="Grade 8 Fall past exam questions." data-ja="中2前期範囲の過去問。" data-ko="중2 1학기 범위 기출문제." data-es="Exámenes de 2.º (1.er semestre).">八上範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available" data-ja="未公開" data-ko="미개방" data-es="No disponible">尚未開放</a>
@@ -504,6 +647,33 @@
     </div>
   </div>
 
+  <!-- Booking 風格日曆彈窗 -->
+  <div id="calModal" class="cal-modal-overlay" onclick="closeCalendarModal(event)">
+    <div class="cal-modal-box" onclick="event.stopPropagation()">
+      <div class="cal-modal-header">
+        <h3>選擇段考日期（連續 2 天）</h3>
+        <button class="cal-close-btn" onclick="closeCalendarModal()">✕</button>
+      </div>
+      <div class="cal-hint">
+        💡 點選任一日作為<strong>首日</strong>，系統將自動為您選取<strong>連續兩天</strong>的段考範圍。
+      </div>
+      <div class="cal-nav">
+        <button onclick="prevMonth()">◀</button>
+        <span id="calMonthTitle">2026年 11月</span>
+        <button onclick="nextMonth()">▶</button>
+      </div>
+      <div class="cal-weekdays">
+        <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+      </div>
+      <div id="calDaysGrid" class="cal-days-grid"></div>
+
+      <div class="cal-modal-footer">
+        <div id="calSelectedLabel" class="cal-selected-label">已選：2026/11/26 ~ 11/27</div>
+        <button class="cal-confirm-btn" onclick="saveCalendarDate()">確認儲存</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // --- 1. 多國語言處理 ---
     const langHtmlCodes = { zh: 'zh-Hant', en: 'en', ja: 'ja', ko: 'ko', es: 'es' };
@@ -515,10 +685,9 @@
       document.getElementById('langSelect').value = lang;
       localStorage.setItem('quiz_site_lang', lang);
       updateCountdown();
-      renderBadges();
     }
 
-    // --- 2. 主題模式切換 (預設/護眼/深色) ---
+    // --- 2. 主題模式切換 ---
     function changeTheme(theme) {
       document.body.classList.remove('theme-dark', 'theme-warm');
       if (theme === 'dark') document.body.classList.add('theme-dark');
@@ -527,77 +696,142 @@
       localStorage.setItem('quiz_site_theme', theme);
     }
 
-    // --- 3. 考前倒數計時器 ---
+    // --- 3. 仿 Booking 連續兩天日曆邏輯 ---
+    let viewYear = 2026;
+    let viewMonth = 10; // 0-indexed, 10 代表 11 月
+    let selectedStart = localStorage.getItem('quiz_exam_start') || '2026-11-26';
+    let selectedEnd = localStorage.getItem('quiz_exam_end') || '2026-11-27';
+
+    function openCalendarModal() {
+      const curStart = new Date(selectedStart);
+      if (!isNaN(curStart.getTime())) {
+        viewYear = curStart.getFullYear();
+        viewMonth = curStart.getMonth();
+      }
+      renderCalendar();
+      document.getElementById('calModal').classList.add('active');
+    }
+
+    function closeCalendarModal(e) {
+      if (!e || e.target.id === 'calModal') {
+        document.getElementById('calModal').classList.remove('active');
+      }
+    }
+
+    function prevMonth() {
+      viewMonth--;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      renderCalendar();
+    }
+
+    function nextMonth() {
+      viewMonth++;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      renderCalendar();
+    }
+
+    function formatDate(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function renderCalendar() {
+      document.getElementById('calMonthTitle').textContent = `${viewYear}年 ${viewMonth + 1}月`;
+      const grid = document.getElementById('calDaysGrid');
+      grid.innerHTML = '';
+
+      const firstDayIndex = new Date(viewYear, viewMonth, 1).getDay();
+      const totalDays = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+      // 前置空白格
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'cal-day-cell empty';
+        grid.appendChild(emptyCell);
+      }
+
+      // 當月日期格
+      for (let d = 1; d <= totalDays; d++) {
+        const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell';
+        cell.textContent = d;
+
+        if (dateStr === selectedStart) cell.classList.add('selected-day1');
+        else if (dateStr === selectedEnd) cell.classList.add('selected-day2');
+
+        cell.onclick = () => {
+          // 選取當日為 Day 1，次日自動設為 Day 2
+          const d1 = new Date(viewYear, viewMonth, d);
+          const d2 = new Date(viewYear, viewMonth, d + 1);
+          selectedStart = formatDate(d1);
+          selectedEnd = formatDate(d2);
+          updateSelectedLabel();
+          renderCalendar();
+        };
+
+        grid.appendChild(cell);
+      }
+      updateSelectedLabel();
+    }
+
+    function updateSelectedLabel() {
+      const label = document.getElementById('calSelectedLabel');
+      const s = selectedStart.replace(/-/g, '/');
+      const e = selectedEnd.replace(/-/g, '/').slice(5);
+      label.textContent = `已選：${s} ~ ${e}`;
+    }
+
+    function saveCalendarDate() {
+      localStorage.setItem('quiz_exam_start', selectedStart);
+      localStorage.setItem('quiz_exam_end', selectedEnd);
+      closeCalendarModal();
+      updateCountdown();
+    }
+
+    // --- 4. 考前倒數計時器（涵蓋連續兩天狀態） ---
     function updateCountdown() {
-      const savedDate = localStorage.getItem('quiz_target_date') || '2026-11-26';
-      const target = new Date(savedDate + 'T08:00:00');
+      const sStr = localStorage.getItem('quiz_exam_start') || '2026-11-26';
+      const eStr = localStorage.getItem('quiz_exam_end') || '2026-11-27';
+
+      // 格式化按鈕文字
+      const sFmt = sStr.replace(/-/g, '/');
+      const eFmt = eStr.replace(/-/g, '/').slice(5);
+      document.getElementById('dateRangeText').textContent = `${sFmt} ~ ${eFmt}`;
+
+      const tStart = new Date(sStr + 'T08:00:00');
+      const tEnd = new Date(eStr + 'T17:00:00');
       const now = new Date();
-      const diff = target - now;
+
       const timerEl = document.getElementById('countdownTimer');
       const currentLang = localStorage.getItem('quiz_site_lang') || 'zh';
 
-      if (diff <= 0) {
-        timerEl.textContent = currentLang === 'zh' ? '進行中 / 已結束' : 'Ongoing / Finished';
-        return;
-      }
+      if (now < tStart) {
+        // 尚未開始
+        const diff = tStart - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / 1000 / 60) % 60);
-
-      const units = {
-        zh: `${days} 天 ${hours} 時 ${minutes} 分`,
-        en: `${days}d ${hours}h ${minutes}m`,
-        ja: `${days}日 ${hours}時間 ${minutes}分`,
-        ko: `${days}일 ${hours}시간 ${minutes}분`,
-        es: `${days}d ${hours}h ${minutes}m`
-      };
-      timerEl.textContent = units[currentLang] || units.zh;
-    }
-
-    function setCountdownDate() {
-      const current = localStorage.getItem('quiz_target_date') || '2026-11-26';
-      const val = prompt('請輸入目標考試日期 (YYYY-MM-DD)：', current);
-      if (val && !isNaN(new Date(val).getTime())) {
-        localStorage.setItem('quiz_target_date', val);
-        updateCountdown();
-      }
-    }
-
-    // --- 4. 進度徽章即時解析 ---
-    function renderBadges() {
-      const badge = document.getElementById('exam2ProgressBadge');
-      if (!badge) return;
-      
-      let answeredCount = 0;
-      const totalQuestions = 405;
-
-      // 掃描本地 LocalStorage 中該模組的作答紀錄
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k.includes('exam2') || k.includes('quiz_history') || k.includes('answered') || k.includes('status')) {
-          try {
-            const data = JSON.parse(localStorage.getItem(k));
-            if (Array.isArray(data)) answeredCount = Math.max(answeredCount, data.length);
-            else if (typeof data === 'object' && data !== null) answeredCount = Math.max(answeredCount, Object.keys(data).length);
-          } catch(e) {}
-        }
-      }
-
-      const lang = localStorage.getItem('quiz_site_lang') || 'zh';
-      const pct = Math.round((answeredCount / totalQuestions) * 100);
-      
-      if (answeredCount > 0) {
-        badge.textContent = `📊 ${answeredCount} / ${totalQuestions} 題 (${pct}%)`;
-      } else {
-        const unstartedText = {
-          zh: '📊 尚未開始練習 (405 題)',
-          en: '📊 Ready to start (405 Qs)',
-          ja: '📊 未開始 (全405問)',
-          ko: '📊 시작 전 (총 405문제)',
-          es: '📊 Listo para iniciar (405 preg.)'
+        const units = {
+          zh: `${days} 天 ${hours} 時 ${minutes} 分`,
+          en: `${days}d ${hours}h ${minutes}m`,
+          ja: `${days}日 ${hours}時間 ${minutes}分`,
+          ko: `${days}일 ${hours}시간 ${minutes}분`,
+          es: `${days}d ${hours}h ${minutes}m`
         };
-        badge.textContent = unstartedText[lang] || unstartedText.zh;
+        timerEl.textContent = units[currentLang] || units.zh;
+      } else if (now >= tStart && now <= tEnd) {
+        // 段考進行中（兩天內）
+        const day1End = new Date(sStr + 'T23:59:59');
+        const isDay1 = now <= day1End;
+        if (currentLang === 'zh') timerEl.textContent = isDay1 ? '🔥 第 1 天進行中' : '🔥 第 2 天進行中';
+        else timerEl.textContent = isDay1 ? 'Exam Day 1' : 'Exam Day 2';
+      } else {
+        // 已結束
+        timerEl.textContent = currentLang === 'zh' ? '已結束' : 'Finished';
       }
     }
 
@@ -608,11 +842,12 @@
       });
     }
 
-    // 初始化執行
+    // 初始化載入
     const initialLang = localStorage.getItem('quiz_site_lang') || 'zh';
     const initialTheme = localStorage.getItem('quiz_site_theme') || 'default';
     changeTheme(initialTheme);
     changeLanguage(initialLang);
+    updateCountdown();
     setInterval(updateCountdown, 60000);
   </script>
 </body>
