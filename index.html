@@ -143,6 +143,21 @@
       letter-spacing: 0.5px;
     }
 
+    .editor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #bbf0ea;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-top: 10px;
+      letter-spacing: 0.4px;
+    }
+
     .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
     .header p { font-size: 14px; opacity: 0.88; }
 
@@ -292,6 +307,14 @@
       color: var(--text-muted);
       margin-top: 50px;
       font-size: 13px;
+      line-height: 1.8;
+    }
+    .footer-editor {
+      margin-top: 4px;
+      font-weight: 600;
+      color: var(--text-main);
+      opacity: 0.8;
+      font-size: 12.5px;
     }
 
     /* Booking 日曆彈窗 */
@@ -486,6 +509,13 @@
          data-ko="학년과 시험 범위를 선택하여 시작하세요. 모든 문제 풀이 기록은 로컬에 저장됩니다."
          data-es="Selecciona el grado y el temario para comenzar. Las respuestas se guardan localmente.">請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。</p>
 
+      <!-- 題庫製作總編輯標記 -->
+      <div>
+        <div class="editor-badge">
+          <span>✍️</span> 題庫製作總編輯.zoechen=little fish
+        </div>
+      </div>
+
       <!-- 考前倒數列 -->
       <div class="countdown-bar">
         <div>
@@ -537,7 +567,7 @@
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평가" data-es="2.º Examen Parcial">第二次段考</h3>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 指導評家" data-es="2.º Examen Parcial">第二次段考</h3>
           <p class="card-desc" data-zh="七下範圍考古題。" data-en="Grade 7 Spring past exam questions." data-ja="中1後期範囲の過去問。" data-ko="중1 2학기 범위 기출문제." data-es="Exámenes de 1.º (2.º semestre).">七下範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available" data-ja="未公開" data-ko="미개방" data-es="No disponible">尚未開放</a>
@@ -657,13 +687,15 @@
       </div>
     </div>
 
-    <div class="footer" 
-         data-zh="國中全科離線測驗練習系統 · 自主複習專用" 
-         data-en="Junior High Offline Quiz System · Self-Study Only"
-         data-ja="中学校全教科オフライン問題演習システム · 自主学習専用"
-         data-ko="중학교 전과목 오프라인 문제 연습 시스템 · 자율학습 전용"
-         data-es="Sistema de Práctica de Exámenes sin Conexión · Uso Exclusivo para Estudio Autónomo">
-      國中全科離線測驗練習系統 · 自主複習專用
+    <div class="footer">
+      <div data-zh="國中全科離線測驗練習系統 · 自主複習專用" 
+           data-en="Junior High Offline Quiz System · Self-Study Only"
+           data-ja="中学校全教科オフライン問題演習システム · 自主学習専用"
+           data-ko="중학교 전과목 오프라인 문제 연습 시스템 · 자율학습 전용"
+           data-es="Sistema de Práctica de Exámenes sin Conexión · Uso Exclusivo para Estudio Autónomo">
+        國中全科離線測驗練習系統 · 自主複習專用
+      </div>
+      <div class="footer-editor">題庫製作總編輯.zoechen=little fish</div>
     </div>
   </div>
 
@@ -874,6 +906,5 @@
     updateCountdown();
     setInterval(updateCountdown, 60000);
   </script>
-
 </body>
 </html>
