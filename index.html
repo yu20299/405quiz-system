@@ -29,7 +29,7 @@
       --cal-selected-bg: #087e7e;
     }
 
-    /* 深色模式 */
+    /* 深色夜間模式 */
     body.theme-dark {
       --bg: #14171a;
       --card-bg: #1e2328;
@@ -62,6 +62,25 @@
       --cal-range-bg: #ebdcc3;
       --cal-selected-bg: #7a5c3e;
     }
+
+    /* 字級縮放樣式 */
+    body.font-sz-medium {
+      font-size: 17px;
+    }
+    body.font-sz-medium .header h1 { font-size: 29px; }
+    body.font-sz-medium .grade-title { font-size: 22px; }
+    body.font-sz-medium .card-title { font-size: 18px; }
+    body.font-sz-medium .card-desc { font-size: 14.5px; }
+    body.font-sz-medium .btn { font-size: 15.5px; }
+
+    body.font-sz-large {
+      font-size: 19px;
+    }
+    body.font-sz-large .header h1 { font-size: 32px; }
+    body.font-sz-large .grade-title { font-size: 24px; }
+    body.font-sz-large .card-title { font-size: 20px; }
+    body.font-sz-large .card-desc { font-size: 16px; }
+    body.font-sz-large .btn { font-size: 17px; }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -275,7 +294,7 @@
       font-size: 13px;
     }
 
-    /* 仿 Booking 日曆 Modal 彈窗樣式 */
+    /* Booking 日曆彈窗 */
     .cal-modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -374,14 +393,12 @@
       cursor: pointer;
       border-radius: 8px;
       transition: background 0.15s;
-      position: relative;
     }
     .cal-day-cell:hover:not(.empty) {
       background: var(--cal-range-bg);
     }
     .cal-day-cell.empty { cursor: default; }
 
-    /* Booking 選取狀態：首日、次日與中間跨度 */
     .cal-day-cell.selected-day1 {
       background-color: var(--cal-selected-bg) !important;
       color: #ffffff !important;
@@ -395,10 +412,6 @@
       font-weight: bold;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-    }
-    .cal-day-cell.in-range {
-      background-color: var(--cal-range-bg) !important;
-      border-radius: 0;
     }
 
     .cal-modal-footer {
@@ -431,6 +444,13 @@
 <body>
   <div class="container">
     <div class="top-bar">
+      <!-- 字級大小切換 -->
+      <select id="fontSizeSelect" class="select-pill" onchange="changeFontSize(this.value)">
+        <option value="normal">🔍 字級：標準</option>
+        <option value="medium">🔍 字級：中</option>
+        <option value="large">🔍 字級：大</option>
+      </select>
+
       <!-- 護眼 / 主題切換 -->
       <select id="themeSelect" class="select-pill" onchange="changeTheme(this.value)">
         <option value="default">💡 預設明亮</option>
@@ -545,14 +565,14 @@
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평가" data-es="2.º Examen Parcial">第二次段考</h3>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 指導評家" data-es="2.º Examen Parcial">第二次段考</h3>
           <p class="card-desc" data-zh="八上範圍考古題。" data-en="Grade 8 Fall past exam questions." data-ja="中2前期範囲の過去問。" data-ko="중2 1학기 범위 기출문제." data-es="Exámenes de 2.º (1.er semestre).">八上範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available" data-ja="未公開" data-ko="미개방" data-es="No disponible">尚未開放</a>
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam" data-ja="第3回定期テスト" data-ko="3차 지필평家" data-es="3.er Examen Parcial">第三次段考</h3>
+          <h3 class="card-title" data-zh="第三次段考" data-en="3rd Exam" data-ja="第3回定期テスト" data-ko="3차 지필평가" data-es="3.er Examen Parcial">第三次段考</h3>
           <p class="card-desc" data-zh="八上範圍考古題。" data-en="Grade 8 Fall past exam questions." data-ja="中2前期範囲の過去問。" data-ko="중2 1학기 범위 기출문제." data-es="Exámenes de 2.º (1.er semestre).">八上範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available" data-ja="未公開" data-ko="미개방" data-es="No disponible">尚未開放</a>
@@ -696,9 +716,18 @@
       localStorage.setItem('quiz_site_theme', theme);
     }
 
-    // --- 3. 仿 Booking 連續兩天日曆邏輯 ---
+    // --- 3. 字級縮放切換 ---
+    function changeFontSize(size) {
+      document.body.classList.remove('font-sz-medium', 'font-sz-large');
+      if (size === 'medium') document.body.classList.add('font-sz-medium');
+      if (size === 'large') document.body.classList.add('font-sz-large');
+      document.getElementById('fontSizeSelect').value = size;
+      localStorage.setItem('quiz_font_size', size);
+    }
+
+    // --- 4. 仿 Booking 連續兩天日曆邏輯 ---
     let viewYear = 2026;
-    let viewMonth = 10; // 0-indexed, 10 代表 11 月
+    let viewMonth = 10;
     let selectedStart = localStorage.getItem('quiz_exam_start') || '2026-11-26';
     let selectedEnd = localStorage.getItem('quiz_exam_end') || '2026-11-27';
 
@@ -745,14 +774,12 @@
       const firstDayIndex = new Date(viewYear, viewMonth, 1).getDay();
       const totalDays = new Date(viewYear, viewMonth + 1, 0).getDate();
 
-      // 前置空白格
       for (let i = 0; i < firstDayIndex; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'cal-day-cell empty';
         grid.appendChild(emptyCell);
       }
 
-      // 當月日期格
       for (let d = 1; d <= totalDays; d++) {
         const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const cell = document.createElement('div');
@@ -763,7 +790,6 @@
         else if (dateStr === selectedEnd) cell.classList.add('selected-day2');
 
         cell.onclick = () => {
-          // 選取當日為 Day 1，次日自動設為 Day 2
           const d1 = new Date(viewYear, viewMonth, d);
           const d2 = new Date(viewYear, viewMonth, d + 1);
           selectedStart = formatDate(d1);
@@ -791,12 +817,11 @@
       updateCountdown();
     }
 
-    // --- 4. 考前倒數計時器（涵蓋連續兩天狀態） ---
+    // --- 5. 考前倒數計時器 ---
     function updateCountdown() {
       const sStr = localStorage.getItem('quiz_exam_start') || '2026-11-26';
       const eStr = localStorage.getItem('quiz_exam_end') || '2026-11-27';
 
-      // 格式化按鈕文字
       const sFmt = sStr.replace(/-/g, '/');
       const eFmt = eStr.replace(/-/g, '/').slice(5);
       document.getElementById('dateRangeText').textContent = `${sFmt} ~ ${eFmt}`;
@@ -809,7 +834,6 @@
       const currentLang = localStorage.getItem('quiz_site_lang') || 'zh';
 
       if (now < tStart) {
-        // 尚未開始
         const diff = tStart - now;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -824,28 +848,28 @@
         };
         timerEl.textContent = units[currentLang] || units.zh;
       } else if (now >= tStart && now <= tEnd) {
-        // 段考進行中（兩天內）
         const day1End = new Date(sStr + 'T23:59:59');
         const isDay1 = now <= day1End;
         if (currentLang === 'zh') timerEl.textContent = isDay1 ? '🔥 第 1 天進行中' : '🔥 第 2 天進行中';
         else timerEl.textContent = isDay1 ? 'Exam Day 1' : 'Exam Day 2';
       } else {
-        // 已結束
         timerEl.textContent = currentLang === 'zh' ? '已結束' : 'Finished';
       }
     }
 
-    // --- 5. PWA Service Worker 註冊 ---
+    // --- 6. PWA Service Worker 註冊 ---
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
 
-    // 初始化載入
+    // 初始化執行
     const initialLang = localStorage.getItem('quiz_site_lang') || 'zh';
     const initialTheme = localStorage.getItem('quiz_site_theme') || 'default';
+    const initialFont = localStorage.getItem('quiz_font_size') || 'normal';
     changeTheme(initialTheme);
+    changeFontSize(initialFont);
     changeLanguage(initialLang);
     updateCountdown();
     setInterval(updateCountdown, 60000);
