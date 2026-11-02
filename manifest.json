@@ -1,0 +1,16 @@
+{
+  "name": "國中段考練習系統",
+  "short_name": "段考練習",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#133e46",
+  "theme_color": "#133e46",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23087e7e'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>考</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

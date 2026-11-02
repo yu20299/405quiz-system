@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>國中段考練習總目錄 | Junior High Exam Practice</title>
+  
+  <!-- PWA 設定 -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#133e46">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="段考總目錄">
+
   <style>
     :root {
       --bg: #f3f6f7;
@@ -11,24 +19,58 @@
       --primary: #087e7e;
       --primary-hover: #066464;
       --header-bg: #133e46;
+      --header-text: #ffffff;
       --text-main: #133e46;
       --text-muted: #6b7280;
       --border: #e1e8eb;
       --disabled-bg: #d0dcde;
       --disabled-text: #788e91;
+      --badge-bg: #e6f4f2;
+      --badge-text: #087e7e;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    /* 深色模式 */
+    body.theme-dark {
+      --bg: #14171a;
+      --card-bg: #1e2328;
+      --primary: #17a2a2;
+      --primary-hover: #138484;
+      --header-bg: #0f272c;
+      --header-text: #f0f6f6;
+      --text-main: #e1e7ec;
+      --text-muted: #8b98a5;
+      --border: #2c343d;
+      --disabled-bg: #272f38;
+      --disabled-text: #576574;
+      --badge-bg: #133e46;
+      --badge-text: #6ee7b7;
     }
+
+    /* 護眼暖色模式 */
+    body.theme-warm {
+      --bg: #f5eedc;
+      --card-bg: #fcf8ee;
+      --primary: #7a5c3e;
+      --primary-hover: #634a31;
+      --header-bg: #4a3b2c;
+      --header-text: #fffaf0;
+      --text-main: #3d3226;
+      --text-muted: #7c6f5d;
+      --border: #e6dac6;
+      --disabled-bg: #dfd4c0;
+      --disabled-text: #8c7e6c;
+      --badge-bg: #ede0cb;
+      --badge-text: #5a3d28;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .container {
@@ -42,35 +84,33 @@
       justify-content: flex-end;
       align-items: center;
       margin-bottom: 12px;
-      gap: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .lang-select {
-      background: #ffffff;
+    .select-pill {
+      background: var(--card-bg);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 20px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       outline: none;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      transition: all 0.2s ease;
+      transition: all 0.2s;
     }
-
-    .lang-select:hover, .lang-select:focus {
-      border-color: var(--primary);
-      background-color: #fafffe;
-    }
+    .select-pill:hover { border-color: var(--primary); }
 
     .header {
       background-color: var(--header-bg);
-      color: #ffffff;
-      padding: 36px 40px;
+      color: var(--header-text);
+      padding: 32px 36px;
       border-radius: 16px;
-      margin-bottom: 36px;
-      box-shadow: 0 4px 16px rgba(19, 62, 70, 0.08);
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      position: relative;
     }
 
     .tag {
@@ -84,16 +124,42 @@
       letter-spacing: 0.5px;
     }
 
-    .header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+    .header p { font-size: 14px; opacity: 0.88; }
+
+    /* 倒數計時列 */
+    .countdown-bar {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 14px;
     }
 
-    .header p {
-      font-size: 14px;
-      color: #d1e3e5;
+    .countdown-timer {
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 4px 12px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
     }
+
+    .countdown-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: var(--header-text);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .countdown-btn:hover { background: rgba(255, 255, 255, 0.15); }
 
     .grade-title {
       font-size: 20px;
@@ -114,7 +180,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .section-title::before {
       content: "";
       display: inline-block;
@@ -130,12 +195,7 @@
       gap: 16px;
       margin-bottom: 24px;
     }
-
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 
     .card {
       background: var(--card-bg);
@@ -145,8 +205,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 140px;
+      min-height: 155px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      position: relative;
     }
 
     .card-title {
@@ -159,7 +220,21 @@
     .card-desc {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    /* 答題進度小徽章 */
+    .progress-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background-color: var(--badge-bg);
+      color: var(--badge-text);
+      margin-bottom: 14px;
+      width: fit-content;
     }
 
     .btn {
@@ -175,10 +250,7 @@
       color: #ffffff;
       transition: background-color 0.2s;
     }
-
-    .btn:hover {
-      background-color: var(--primary-hover);
-    }
+    .btn:hover { background-color: var(--primary-hover); }
 
     .btn.disabled {
       background-color: var(--disabled-bg);
@@ -194,6 +266,16 @@
       cursor: default;
       pointer-events: none;
     }
+    body.theme-dark .btn-light-outline {
+      background-color: #172b2d;
+      color: #72cfc2;
+      border-color: #275550;
+    }
+    body.theme-warm .btn-light-outline {
+      background-color: #ebdcc3;
+      color: #553e2a;
+      border-color: #c7b395;
+    }
 
     .footer {
       text-align: center;
@@ -206,8 +288,15 @@
 <body>
   <div class="container">
     <div class="top-bar">
-      <span>🌐</span>
-      <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
+      <!-- 護眼 / 主題切換 -->
+      <select id="themeSelect" class="select-pill" onchange="changeTheme(this.value)">
+        <option value="default">💡 預設明亮</option>
+        <option value="warm">🍵 護眼暖色</option>
+        <option value="dark">🌙 深色夜間</option>
+      </select>
+
+      <!-- 語言切換 -->
+      <select id="langSelect" class="select-pill" onchange="changeLanguage(this.value)">
         <option value="zh">繁體中文</option>
         <option value="en">English</option>
         <option value="ja">日本語</option>
@@ -233,6 +322,16 @@
          data-ja="学年とテスト範囲を選択して開始してください。解答記録は端末内に保存されます。"
          data-ko="학년과 시험 범위를 선택하여 시작하세요. 모든 문제 풀이 기록은 로컬에 저장됩니다."
          data-es="Selecciona el grado y el temario para comenzar. Las respuestas se guardan localmente.">請選擇學年與段考範圍進入測驗系統。各模組答題紀錄皆獨立保存於本地端。</p>
+
+      <!-- 考前倒數列 -->
+      <div class="countdown-bar">
+        <div>
+          ⏳ <span id="countdownLabel" data-zh="距離目標段考：" data-en="Exam Countdown:" data-ja="テストまであと：" data-ko="시험까지 남은 시간:" data-es="Cuenta regresiva:">距離目標段考：</span>
+          <span id="countdownTimer" class="countdown-timer">計算中...</span>
+        </div>
+        <button class="countdown-btn" onclick="setCountdownDate()" 
+                data-zh="設定考期" data-en="Set Date" data-ja="日程設定" data-ko="날짜 설정" data-es="Configurar">設定考期</button>
+      </div>
     </header>
 
     <!-- 國一（七年級） -->
@@ -251,6 +350,7 @@
         <div>
           <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평가" data-es="2.º Examen Parcial">第二次段考</h3>
           <p class="card-desc" data-zh="國文、英文、社會、自然 405 題考古練習。" data-en="405 practice questions (Chinese, English, Social Studies, Science)." data-ja="国語・英語・社会・理科 405問の過去問演習。" data-ko="국어·영어·사회·과학 405문제 기출 연습." data-es="405 preguntas de práctica (Chino, Inglés, Ciencias Sociales, Ciencias).">國文、英文、社會、自然 405 題考古練習。</p>
+          <div id="exam2ProgressBadge" class="progress-badge">📊 讀取中...</div>
         </div>
         <a href="./exam2/" class="btn" data-zh="進入練習系統 →" data-en="Start Practice →" data-ja="練習システムへ →" data-ko="연습 시스템 시작 →" data-es="Entrar a la práctica →">進入練習系統 →</a>
       </div>
@@ -274,7 +374,7 @@
       </div>
       <div class="card">
         <div>
-          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평高" data-es="2.º Examen Parcial">第二次段考</h3>
+          <h3 class="card-title" data-zh="第二次段考" data-en="2nd Exam" data-ja="第2回定期テスト" data-ko="2차 지필평가" data-es="2.º Examen Parcial">第二次段考</h3>
           <p class="card-desc" data-zh="七下範圍考古題。" data-en="Grade 7 Spring past exam questions." data-ja="中1後期範囲の過去問。" data-ko="중1 2학기 범위 기출문제." data-es="Exámenes de 1.º (2.º semestre).">七下範圍考古題。</p>
         </div>
         <a href="#" class="btn disabled" data-zh="尚未開放" data-en="Not Available" data-ja="未公開" data-ko="미개방" data-es="No disponible">尚未開放</a>
@@ -405,14 +505,8 @@
   </div>
 
   <script>
-    const langHtmlCodes = {
-      zh: 'zh-Hant',
-      en: 'en',
-      ja: 'ja',
-      ko: 'ko',
-      es: 'es'
-    };
-
+    // --- 1. 多國語言處理 ---
+    const langHtmlCodes = { zh: 'zh-Hant', en: 'en', ja: 'ja', ko: 'ko', es: 'es' };
     function changeLanguage(lang) {
       document.querySelectorAll(`[data-${lang}]`).forEach(el => {
         el.textContent = el.getAttribute(`data-${lang}`);
@@ -420,11 +514,106 @@
       document.documentElement.lang = langHtmlCodes[lang] || 'zh-Hant';
       document.getElementById('langSelect').value = lang;
       localStorage.setItem('quiz_site_lang', lang);
+      updateCountdown();
+      renderBadges();
     }
 
-    // 初始化讀取使用者先前選取的語言，預設繁中
-    const savedLang = localStorage.getItem('quiz_site_lang') || 'zh';
-    changeLanguage(savedLang);
+    // --- 2. 主題模式切換 (預設/護眼/深色) ---
+    function changeTheme(theme) {
+      document.body.classList.remove('theme-dark', 'theme-warm');
+      if (theme === 'dark') document.body.classList.add('theme-dark');
+      if (theme === 'warm') document.body.classList.add('theme-warm');
+      document.getElementById('themeSelect').value = theme;
+      localStorage.setItem('quiz_site_theme', theme);
+    }
+
+    // --- 3. 考前倒數計時器 ---
+    function updateCountdown() {
+      const savedDate = localStorage.getItem('quiz_target_date') || '2026-11-26';
+      const target = new Date(savedDate + 'T08:00:00');
+      const now = new Date();
+      const diff = target - now;
+      const timerEl = document.getElementById('countdownTimer');
+      const currentLang = localStorage.getItem('quiz_site_lang') || 'zh';
+
+      if (diff <= 0) {
+        timerEl.textContent = currentLang === 'zh' ? '進行中 / 已結束' : 'Ongoing / Finished';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+
+      const units = {
+        zh: `${days} 天 ${hours} 時 ${minutes} 分`,
+        en: `${days}d ${hours}h ${minutes}m`,
+        ja: `${days}日 ${hours}時間 ${minutes}分`,
+        ko: `${days}일 ${hours}시간 ${minutes}분`,
+        es: `${days}d ${hours}h ${minutes}m`
+      };
+      timerEl.textContent = units[currentLang] || units.zh;
+    }
+
+    function setCountdownDate() {
+      const current = localStorage.getItem('quiz_target_date') || '2026-11-26';
+      const val = prompt('請輸入目標考試日期 (YYYY-MM-DD)：', current);
+      if (val && !isNaN(new Date(val).getTime())) {
+        localStorage.setItem('quiz_target_date', val);
+        updateCountdown();
+      }
+    }
+
+    // --- 4. 進度徽章即時解析 ---
+    function renderBadges() {
+      const badge = document.getElementById('exam2ProgressBadge');
+      if (!badge) return;
+      
+      let answeredCount = 0;
+      const totalQuestions = 405;
+
+      // 掃描本地 LocalStorage 中該模組的作答紀錄
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k.includes('exam2') || k.includes('quiz_history') || k.includes('answered') || k.includes('status')) {
+          try {
+            const data = JSON.parse(localStorage.getItem(k));
+            if (Array.isArray(data)) answeredCount = Math.max(answeredCount, data.length);
+            else if (typeof data === 'object' && data !== null) answeredCount = Math.max(answeredCount, Object.keys(data).length);
+          } catch(e) {}
+        }
+      }
+
+      const lang = localStorage.getItem('quiz_site_lang') || 'zh';
+      const pct = Math.round((answeredCount / totalQuestions) * 100);
+      
+      if (answeredCount > 0) {
+        badge.textContent = `📊 ${answeredCount} / ${totalQuestions} 題 (${pct}%)`;
+      } else {
+        const unstartedText = {
+          zh: '📊 尚未開始練習 (405 題)',
+          en: '📊 Ready to start (405 Qs)',
+          ja: '📊 未開始 (全405問)',
+          ko: '📊 시작 전 (총 405문제)',
+          es: '📊 Listo para iniciar (405 preg.)'
+        };
+        badge.textContent = unstartedText[lang] || unstartedText.zh;
+      }
+    }
+
+    // --- 5. PWA Service Worker 註冊 ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    // 初始化執行
+    const initialLang = localStorage.getItem('quiz_site_lang') || 'zh';
+    const initialTheme = localStorage.getItem('quiz_site_theme') || 'default';
+    changeTheme(initialTheme);
+    changeLanguage(initialLang);
+    setInterval(updateCountdown, 60000);
   </script>
 </body>
 </html>
